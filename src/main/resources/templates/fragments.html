@@ -9,16 +9,19 @@
 </head>
 <body>
 
-
 <nav th:fragment="navigation">
-
-<h1 th:text="${title}">Andie's Coding Events</h1>
-<ul class="nav">
-    <li><a href="/" class="nav-link">Home</a></li>
-    <li><a href="/events" class="nav-link">View all events</a></li>
-    <li><a href="/events/create" class="nav-link">Create a new event</a></li>
-</ul>
+    <h1 th:text="${title}">Andie's Coding Events</h1>
+    <ul class="nav">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/events" class="nav-link">View all events</a></li>
+        <li><a href="/events/create" class="nav-link">Create a new event</a></li>
+    </ul>
 </nav>
+
+<th:block>
+    <td th:fragment="address" th:text="${address}"></td>
+</th:block>
+
 
 </body>
 </html>
