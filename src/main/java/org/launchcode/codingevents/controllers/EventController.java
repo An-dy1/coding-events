@@ -1,32 +1,21 @@
 package org.launchcode.codingevents.controllers;
 
+import org.launchcode.codingevents.data.EventData;
 import org.launchcode.codingevents.models.Event;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("events")
 public class EventController {
 
-//  private static List<String> events = new ArrayList<>();
-//  private static Map<String, String> events = new HashMap<>();
-
-	private static List<Event> events = new ArrayList<>();
-
-
 	@GetMapping()
 	public String displayAllEvents(Model model) {
-//    events.add(new Event("Event 1", "Red"));
-//    events.add(new Event("Event 2", "Orange"));
-//    events.add(new Event("Event 3", "Yellow"));
 
-		model.addAttribute("events", events);
+		model.addAttribute("events", EventData.getAll());
 		model.addAttribute("title", "Andie's dynamic coding events title");
 		model.addAttribute("address", "456 E West St, KC MO");
 		return "events/index";
@@ -39,21 +28,57 @@ public class EventController {
 	}
 
 	@PostMapping("create")
-	public String acceptFormSubmission(@RequestParam String eventName, @RequestParam String eventDescription) {
-		if (!eventName.equals("") && !eventDescription.equals("")) {
-			events.add(new Event(eventName, eventDescription));
-		}
+	public String acceptFormSubmission(@ModelAttribute Event newEvent) {
+		EventData.add(newEvent);
 		return "redirect:";
 	}
 
-	@GetMapping("edit/${eventId}")
-	public String displayEditForm(Model model, @PathVariable int eventId) {
+	@GetMapping("delete")
+	public String displayDeleteEventForm(Model model) {
+
+		model.addAttribute("title", "Dynamic Delete Events Page");
+		model.addAttribute("events", EventData.getAll());
+
+		return "events/delete";
+	}
+
+	@PostMapping("delete")
+	public String handleEventDeleteSubmission(@RequestParam(required = false) int[] eventIds) {
+
+		if (eventIds != null) {
+			for (int id : eventIds) {
+				EventData.remove(id);
+			}
+		}
 
 		return "redirect:";
+	}
+
+	@GetMapping("edit/{eventId}")
+	public String displayEditForm(Model model, @PathVariable int eventId) {
+		Event currentEvent = EventData.getById(eventId);
+		model.addAttribute("event", currentEvent);
+		return "events/edit";
 	}
 
 	@PostMapping("edit")
 	public String processEditForm(int eventId, String name, String description) {
-		return "String";
+		return "redirect:";
 	}
+
+//	@GetMapping("edit/{eventId}")
+//	public String displayEditForm(Model model, @PathVariable int eventId) {
+//		Event currentEvent = EventData.getById(eventId);
+//		model.addAttribute(currentEvent);
+//		model.addAttribute("title", "Edit event " + currentEvent.getName() + " (id = " + currentEvent.getId() + ")");
+//		return "events/edit";
+//	}
+//
+//	@PostMapping("edit")
+//	public String processEditForm(int eventId, String name, String description) {
+//		Event eventToEdit = EventData.getById(eventId);
+//		eventToEdit.setName(name);
+//		eventToEdit.setDescription(description);
+//		return "redirect:";
+//	}
 }

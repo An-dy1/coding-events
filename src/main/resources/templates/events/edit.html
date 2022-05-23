@@ -7,15 +7,16 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
-<form method="post" action="/events/create">
+<form method="post" th:action="@{/events/edit}">
 	<div class="form-group">
 		<label for="eventInput">Name
-			<input id="eventInput" type="text" name="eventName" class="form-control">
+			<input id="eventInput" type="text" th:value="${event.name}" name="eventName" class="form-control">
 		</label>
 	</div>
 	<div class="form-group">
 		<label for="descriptionInput">Description
-			<input id="descriptionInput" type="text" name="eventDescription" class="form-control">
+			<input id="descriptionInput" type="text" th:value="${event.description}" name="eventDescription"
+			       class="form-control">
 		</label>
 	</div>
 	
