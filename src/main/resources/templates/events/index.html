@@ -11,21 +11,24 @@
 <p th:unless="${events} and ${events.size()}">No events to display</p>
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Event name</th>
-            <th>Description</th>
-            <th>Address</th>
-        </tr>
-    </thead>
-
-    <th:block th:each="event : ${events}">
-        <tr>
-            <td th:text="${event.name}"></td>
-            <td th:text="${event.description}"></td>
-            <td th:replace="fragments :: address"></td>
-        </tr>
-    </th:block>
+	<thead>
+	<tr>
+		<th>Event name</th>
+		<th>Description</th>
+		<th>Address</th>
+	</tr>
+	</thead>
+	
+	<th:block th:each="event : ${events}">
+		<tr>
+			<td th:text="${event.name}"></td>
+			<td th:text="${event.description}"></td>
+			<td th:replace="fragments :: address"></td>
+			<td>
+				<a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
+			</td>
+		</tr>
+	</th:block>
 
 </table>
 

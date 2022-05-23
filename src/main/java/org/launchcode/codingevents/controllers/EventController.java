@@ -67,7 +67,7 @@ public class EventController {
 		Event eventToEdit = EventData.getById(eventId);
 		eventToEdit.setName(name);
 		eventToEdit.setDescription(description);
-		return "redirect:events";
+		return "redirect:";
 	}
 
 //	@GetMapping("edit/{eventId}")
